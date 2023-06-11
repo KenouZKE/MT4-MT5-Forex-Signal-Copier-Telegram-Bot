@@ -237,7 +237,7 @@ async def ConnectMetaTrader(update: Update, trade: dict, enterTrade: bool):
         # obtains account information from MetaTrader server
         account_information = await connection.get_account_information()
 
-        update.effective_message.reply_text("Successfully connected to MetaTrader!\nCalculating trade risk ... 🤔")
+        update.effective_message.reply_text("Parfait je suis connecter a MT4/5 !\n Calcule du risque en cours ... 🤔")
 
         # checks if the order is a market execution to get the current price of symbol
         if(trade['Entry'] == 'NOW'):
@@ -258,7 +258,7 @@ async def ConnectMetaTrader(update: Update, trade: dict, enterTrade: bool):
         if(enterTrade == True):
 
             # enters trade on to MetaTrader account
-            update.effective_message.reply_text("Entering trade on MetaTrader Account ... 👨🏾‍💻")
+            update.effective_message.reply_text("Entrer du trade sur MT4/5 ... 👨🏾‍💻")
 
             try:
                 # executes buy market execution order
@@ -295,16 +295,16 @@ async def ConnectMetaTrader(update: Update, trade: dict, enterTrade: bool):
                 update.effective_message.reply_text("Trade entered successfully! 💰")
                 
                 # prints success message to console
-                logger.info('\nTrade entered successfully!')
+                logger.info('\nVotre trade a été executée a merveille !')
                 logger.info('Result Code: {}\n'.format(result['stringCode']))
             
             except Exception as error:
-                logger.info(f"\nTrade failed with error: {error}\n")
-                update.effective_message.reply_text(f"There was an issue 😕\n\nError Message:\n{error}")
+                logger.info(f"\n Erreur Trade non executée : {error}\n")
+                update.effective_message.reply_text(f"Il y'a une erreur 😕\n\nError Message:\n{error}")
     
     except Exception as error:
         logger.error(f'Error: {error}')
-        update.effective_message.reply_text(f"There was an issue with the connection 😕\n\nError Message:\n{error}")
+        update.effective_message.reply_text(f"Il y'a une erreur de connection😕\n\nError Message:\n{error}")
     
     return
 
@@ -331,11 +331,11 @@ def PlaceTrade(update: Update, context: CallbackContext) -> int:
 
             # sets the user context trade equal to the parsed trade
             context.user_data['trade'] = trade
-            update.effective_message.reply_text("Trade Successfully Parsed! 🥳\nConnecting to MetaTrader ... \n(May take a while) ⏰")
+            update.effective_message.reply_text("Trade Successfully Parsed! 🥳\nConnection a MetaTrader ... (Sa peut prendre un peut de temps !) ⏰")
         
         except Exception as error:
             logger.error(f'Error: {error}')
-            errorMessage = f"There was an error parsing this trade 😕\n\nError: {error}\n\nPlease re-enter trade with this format:\n\nBUY/SELL SYMBOL\nEntry \nSL \nTP \n\nOr use the /cancel to command to cancel this action."
+            errorMessage = f"Il y'a une erreur dans ce Trade 😕\n\nError: {error}\n\n Please re-enter trade with this format:\n\nBUY/SELL SYMBOL\nEntry \nSL \nTP \n\nOr use the /cancel to command to cancel this action."
             update.effective_message.reply_text(errorMessage)
 
             # returns to TRADE state to reattempt trade parsing
@@ -370,7 +370,7 @@ def CalculateTrade(update: Update, context: CallbackContext) -> int:
 
             # sets the user context trade equal to the parsed trade
             context.user_data['trade'] = trade
-            update.effective_message.reply_text("Trade Successfully Parsed! 🥳\nConnecting to MetaTrader ... (May take a while) ⏰")
+            update.effective_message.reply_text("Trade recu ! 🥳\n Connexion à MetaTrader ... (Peut prendre un certain temps) ⏰")
         
         except Exception as error:
             logger.error(f'Error: {error}')
@@ -396,10 +396,10 @@ def unknown_command(update: Update, context: CallbackContext) -> None:
         context: CallbackContext object that stores commonly used objects in handler callbacks
     """
     if(not(update.effective_message.chat.username == TELEGRAM_USER)):
-        update.effective_message.reply_text("You are not authorized to use this bot! 🙅🏽‍♂️")
+        update.effective_message.reply_text("Vous n'êtes pas autorisé à utiliser ce robot ! 🙅🏽‍♂️")
         return
 
-    update.effective_message.reply_text("Unknown command. Use /trade to place a trade or /calculate to find information for a trade. You can also use the /help command to view instructions for this bot.")
+    update.effective_message.reply_text("Commande inconnue. Utilisez /trade pour placer une transaction ou /calculate pour obtenir des informations sur une transaction. Vous pouvez également utiliser la commande /help pour consulter les instructions relatives à ce robot.")
 
     return
 
@@ -413,7 +413,7 @@ def welcome(update: Update, context: CallbackContext) -> None:
         context: CallbackContext object that stores commonly used objects in handler callbacks
     """
 
-    welcome_message = "Welcome to the FX Signal Copier Telegram Bot! 💻💸\n\nYou can use this bot to enter trades directly from Telegram and get a detailed look at your risk to reward ratio with profit, loss, and calculated lot size. You are able to change specific settings such as allowed symbols, risk factor, and more from your personalized Python script and environment variables.\n\nUse the /help command to view instructions and example trades."
+    welcome_message = "Bienvenue sur KenouFX🚀 \n \n Vous pouvez utiliser ce bot pour entrer dans les transactions directement à partir de Telegram et obtenir un aperçu détaillé de votre ratio risque-récompense avec le profit, la perte et la taille de lot calculée. "
     
     # sends messages to user
     update.effective_message.reply_text(welcome_message)
@@ -450,7 +450,7 @@ def cancel(update: Update, context: CallbackContext) -> int:
         context: CallbackContext object that stores commonly used objects in handler callbacks
     """
 
-    update.effective_message.reply_text("Command has been canceled.")
+    update.effective_message.reply_text("Votre Trade n'a pas été exécuté !")
 
     # removes trade from user context data
     context.user_data['trade'] = None
@@ -477,14 +477,14 @@ def Trade_Command(update: Update, context: CallbackContext) -> int:
         context: CallbackContext object that stores commonly used objects in handler callbacks
     """
     if(not(update.effective_message.chat.username == TELEGRAM_USER)):
-        update.effective_message.reply_text("You are not authorized to use this bot! 🙅🏽‍♂️")
+        update.effective_message.reply_text("Vous n'êtes pas autorisé à utiliser ce robot ! 🙅🏽‍♂️")
         return ConversationHandler.END
     
     # initializes the user's trade as empty prior to input and parsing
     context.user_data['trade'] = None
     
     # asks user to enter the trade
-    update.effective_message.reply_text("Please enter the trade that you would like to place.")
+    update.effective_message.reply_text("Veuillez saisir le Trade que vous souhaitez calculer.")
 
     return TRADE
 
@@ -496,14 +496,14 @@ def Calculation_Command(update: Update, context: CallbackContext) -> int:
         context: CallbackContext object that stores commonly used objects in handler callbacks
     """
     if(not(update.effective_message.chat.username == TELEGRAM_USER)):
-        update.effective_message.reply_text("You are not authorized to use this bot! 🙅🏽‍♂️")
+        update.effective_message.reply_text("Vous n'êtes pas autorisé à utiliser ce robot ! 🙅🏽‍♂️")
         return ConversationHandler.END
 
     # initializes the user's trade as empty prior to input and parsing
     context.user_data['trade'] = None
 
     # asks user to enter the trade
-    update.effective_message.reply_text("Please enter the trade that you would like to calculate.")
+    update.effective_message.reply_text("Veuillez saisir le Trade que vous souhaitez calculer.")
 
     return CALCULATE
 
