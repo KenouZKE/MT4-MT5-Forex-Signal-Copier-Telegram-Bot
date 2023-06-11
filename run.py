@@ -73,18 +73,12 @@ def ParseSignal(signal: str) -> dict:
     elif('Sell Stop'.lower() in signal[0].lower()):
         trade['OrderType'] = 'Sell Stop'
 
-    elif('Buy'.lower() in signal[0].lower()):
+    elif('ACHAT'.lower() in signal[0].lower()):
         trade['OrderType'] = 'Buy'
     
-    elif('Sell'.lower() in signal[0].lower()):
+    elif('VENTE'.lower() in signal[0].lower()):
         trade['OrderType'] = 'Sell'
         
-     elif('ACHAT'.lower() in signal[0].lower()):
-        trade['OrderType'] = 'Buy'
-        
-     elif('VENTE'.lower() in signal[0].lower()):
-        trade['OrderType'] = 'sell'
-    
     
     # returns an empty dictionary if an invalid order type was given
     else:
