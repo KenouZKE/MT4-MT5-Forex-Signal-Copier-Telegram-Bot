@@ -64,7 +64,7 @@ def ParseSignal(signal: str) -> dict:
     if('Buy limit'.lower() in signal[0].lower()):
         trade['OrderType'] = 'Buy Limit'
 
-    elif('SELL LIMITE'.lower() in signal[0].lower()):
+    elif('Sell limit'.lower() in signal[0].lower()):
         trade['OrderType'] = 'Sell Limit'
 
     elif('Buy Stop'.lower() in signal[0].lower()):
@@ -73,10 +73,10 @@ def ParseSignal(signal: str) -> dict:
     elif('Sell Stop'.lower() in signal[0].lower()):
         trade['OrderType'] = 'Sell Stop'
 
-    elif('BUY'.lower() in signal[0].lower()):
+    elif('Buy'.lower() in signal[0].lower()):
         trade['OrderType'] = 'Buy'
     
-    elif('SELL'.lower() in signal[0].lower()):
+    elif('Sell'.lower() in signal[0].lower()):
         trade['OrderType'] = 'Sell'
         
     
