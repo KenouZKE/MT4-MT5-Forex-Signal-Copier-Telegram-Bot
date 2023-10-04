@@ -67,9 +67,9 @@ def ParseSignal(signal: str) -> dict:
         elif "SELL" in line:
             trade["type"] = "SELL"
         elif "ENTRÉE" in line:
-            entry_match = re.search(r'\d+\.\d+', line)
+            entry_match = re.search(r'ENTRÉE : (\d+\.\d+)', line)
             if entry_match:
-                trade["entry"] = float(entry_match.group())
+                trade["entry"] = float(entry_match.group(1))
         elif "SL" in line:
             sl_match = re.search(r'SL : (\d+\.\d+)', line)
             if sl_match:
@@ -90,7 +90,7 @@ def ParseSignal(signal: str) -> dict:
             trade["symbol"] = "XAUUSDx"  # Remplace "GOLD" par "XAUUSDx"
 
     return trade
-
+    
 signal_text = "BUY GOLD🟢\n➡️ ENTRÉE : 1820\n➡️ TP1 : 1825✅\n➡️ TP2 : 1830✅\n➡️ TP3 : 1835✅\n➡️ SL : 1815❌(50 pips 1RR)\nAttention à vos lots sur ce trade"
 trade_info = ParseSignal(signal_text)
 
