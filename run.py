@@ -67,7 +67,9 @@ def ParseSignal(signal: str) -> dict:
         elif "SELL" in line:
             trade["type"] = "SELL"
         elif "ENTRÉE" in line:
-            trade["entry"] = float(re.search(r'\d+\.\d+', line).group())
+            entry_match = re.search(r'\d+\.\d+', line)
+            if entry_match:
+                trade["entry"] = float(entry_match.group())
         elif "SL" in line:
             sl_match = re.search(r'SL : (\d+\.\d+)', line)
             if sl_match:
